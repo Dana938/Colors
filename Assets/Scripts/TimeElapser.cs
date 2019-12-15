@@ -9,6 +9,7 @@ public class TimeElapser : MonoBehaviour
     TimeSpan startTime;
 
     public TimeSpan ElapsedTime { get; private set; }
+    public GameObject NewRecord;
 
     // Start is called before the first frame update
     void Start()
@@ -25,7 +26,13 @@ public class TimeElapser : MonoBehaviour
         while ( true )
         {
             if ( GameObject.Find ( "Main Camera" ).GetComponent<GameStates> ().IsGameOver )
+            {
+                if ( Ranking.Insert ( ElapsedTime ) )
+                {
+                    NewRecord.SetActive ( true );
+                }
                 yield break;
+            }
 
             var diff = DateTime.Now.TimeOfDay - startTime;
             ElapsedTime = diff;
