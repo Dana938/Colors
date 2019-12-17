@@ -40,7 +40,7 @@ public class GroundEmitter : MonoBehaviour
                 yield return new WaitForSeconds ( 1.0f );
             }
 
-            int random = (lastEmit == 2 || lastEmit == 4 || lastEmit == 8) ? 0 : StaticRandom.Next ( 0, 10 );
+            int random = (lastEmit == 2 || lastEmit == 4 || lastEmit == 8) ? 0 : StaticRandom.Next ( 0, 9 );
             switch ( random )
             {
                 case 0:
@@ -49,7 +49,6 @@ public class GroundEmitter : MonoBehaviour
                 case 5:
                 case 6:
                 case 7:
-                case 9:
                     Instantiate ( NoObstacleGroundPrefab, new Vector3 ( 3, -1.4f, 0 ), Quaternion.identity );
                     break;
 

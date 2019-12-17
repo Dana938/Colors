@@ -16,6 +16,8 @@ public static class Ranking
 
 	static Elapsed [] rank = new Elapsed [ 4 ];
 
+	public static Elapsed GetRanking ( int rank ) => Ranking.rank [ rank ];
+
 	static Ranking ()
 	{
 		if ( File.Exists ( RankingPath ) )
