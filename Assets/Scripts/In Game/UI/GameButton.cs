@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class GameButton : MonoBehaviour
 {
-    public void ChangeColorToCyan () => GetGameStates ().ChangeColor ( 0 );
-    public void ChangeColorToMagenta () => GetGameStates ().ChangeColor ( 1 );
-    public void ChangeColorToYellow () => GetGameStates ().ChangeColor ( 2 );
-    public void ChangeColorToBlack () => GetGameStates ().ChangeColor ( 3 );
-    public void ChangeColorToPurpleBlue () => GetGameStates ().ChangeColor ( 4 );
-    public void ChangeColorToLightGreen () => GetGameStates ().ChangeColor ( 5 );
-    public void ChangeColorToEmainMachaBlue () => GetGameStates ().ChangeColor ( 6 );
-    public void ChangeColorToLightRed () => GetGameStates ().ChangeColor ( 7 );
-    public void ChangeColorToPurple () => GetGameStates ().ChangeColor ( 8 );
-    public void ChangeColorToGold () => GetGameStates ().ChangeColor ( 9 );
+    void ChangeColorToCyan () => GetGameStates ().ChangeColor ( 0 );
+    void ChangeColorToMagenta () => GetGameStates ().ChangeColor ( 1 );
+    void ChangeColorToYellow () => GetGameStates ().ChangeColor ( 2 );
+    void ChangeColorToBlack () => GetGameStates ().ChangeColor ( 3 );
+    void ChangeColorToPurpleBlue () => GetGameStates ().ChangeColor ( 4 );
+    void ChangeColorToLightGreen () => GetGameStates ().ChangeColor ( 5 );
+    void ChangeColorToEmainMachaBlue () => GetGameStates ().ChangeColor ( 6 );
+    void ChangeColorToLightRed () => GetGameStates ().ChangeColor ( 7 );
+    void ChangeColorToPurple () => GetGameStates ().ChangeColor ( 8 );
+    void ChangeColorToGold () => GetGameStates ().ChangeColor ( 9 );
 
     GameStates GetGameStates ()
     {

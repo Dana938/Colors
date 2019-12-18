@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,30 +14,25 @@ public class RandomColor : MonoBehaviour
     {
         do
         {
-            CurrentColor = StaticRandom.Next ( 0, 4 );
+            TimeSpan elapsed = GameObject.Find ( "Time Text" ).GetComponent<TimeElapser> ().ElapsedTime;
+
+            CurrentColor = StaticRandom.Next ( 0, 10 );
+            if ( CurrentColor > 3 )
+            {
+                if ( elapsed < TimeSpan.FromSeconds ( 30 ) )
+                    CurrentColor = StaticRandom.Next ( 0, 4 );
+                else if ( elapsed < TimeSpan.FromSeconds ( 60 ) )
+                {
+                    if ( CurrentColor == ( int ) GameColor.LightGreen || CurrentColor == ( int ) GameColor.Purple )
+                        continue;
+                }
+            }
         }
         while ( CurrentColor == GameObject.Find ( "Main Camera" ).GetComponent<GameStates> ().Color );
 
         SpriteRenderer renderer = GetComponent<SpriteRenderer> ();
 
-        switch (CurrentColor)
-		{
-            case 0:
-                renderer.color = new Color ( 0, 1, 1 );
-                break;
-
-            case 1:
-                renderer.color = new Color ( 1, 0, 1 );
-                break;
-
-            case 2:
-                renderer.color = new Color ( 1, 1, 0 );
-                break;
-
-            case 3:
-                renderer.color = new Color ( 0.498f, 0.498f, 0.498f );
-                break;
-        }
+        renderer.color = GameStates.GetColor ( CurrentColor );
     }
 
     // Update is called once per frame
