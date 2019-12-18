@@ -13,7 +13,7 @@ public class GroundMover : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position += new Vector3(-0.01f, 0, 0);
+        transform.position += new Vector3(-1.45f, 0, 0) * Time.deltaTime;
         if ( transform.position.x <= -3 )
             Destroy ( gameObject );
     }
