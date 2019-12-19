@@ -24,7 +24,7 @@ public class JumperCollision : MonoBehaviour
 
         if ( collision.gameObject == actor )
         {
-            actor.GetComponent<Rigidbody2D> ().AddForce ( Vector2.up * 4.6f, ForceMode2D.Impulse );
+            actor.GetComponent<Rigidbody2D> ().AddForce ( Vector2.up * 4.45f, ForceMode2D.Impulse );
             actor.GetComponent<Animator> ().runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ( "Actor/Jump" );
 
             var jumperAnimator = gameObject.GetComponent<Animator> ();

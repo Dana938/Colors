@@ -12,6 +12,11 @@ public class RandomColor : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GenerateRandomColor ();
+    }
+
+    public void GenerateRandomColor ()
+    {
         do
         {
             TimeSpan elapsed = GameObject.Find ( "Time Text" ).GetComponent<TimeElapser> ().ElapsedTime;

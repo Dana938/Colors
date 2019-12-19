@@ -6,18 +6,14 @@ public class GroundEmitter : MonoBehaviour
 {
     static readonly System.Random StaticRandom = new System.Random ();
 
-    GameObject NoObstacleGroundPrefab, SmallObstacleGroundPrefab, BigObstacleGroundPrefab, JumperGroundPrefab;
-
     // Start is called before the first frame update
     void Start()
     {
-        NoObstacleGroundPrefab = Resources.Load ("Prefabs/Ground_None", typeof (GameObject)) as GameObject;
-        SmallObstacleGroundPrefab = Resources.Load ("Prefabs/Ground_SmallObstacle", typeof (GameObject)) as GameObject;
-        BigObstacleGroundPrefab = Resources.Load ("Prefabs/Ground_BigObstacle", typeof (GameObject)) as GameObject;
-        JumperGroundPrefab = Resources.Load ( "Prefabs/Ground_Jumper", typeof ( GameObject ) ) as GameObject;
-
-        for (int i = 0; i < 8; ++i)
-            Instantiate (NoObstacleGroundPrefab, new Vector3 ((i * 0.75f) - 3, -1.4f, 0), Quaternion.identity);
+        for ( int i = 0; i < 8; ++i )
+        {
+            var obj = GameObject.Find ( "Object Pool" ).GetComponent<ObjectPool> ().AddGround ();
+            obj.transform.position = new Vector3 ( ( i * 0.75f ) - 3, -1.4f, 0 );
+        }
 
         StartCoroutine ( "EmitGround" );
     }
@@ -30,6 +26,7 @@ public class GroundEmitter : MonoBehaviour
 
     IEnumerator EmitGround ()
     {
+        ObjectPool objectPool = GameObject.Find ( "Object Pool" ).GetComponent<ObjectPool> ();
         int lastEmit = 0;
 
         while ( true )
@@ -41,6 +38,7 @@ public class GroundEmitter : MonoBehaviour
             }
 
             int random = (lastEmit == 2 || lastEmit == 4 || lastEmit == 8) ? 0 : StaticRandom.Next ( 0, 9 );
+            GameObject obj = null;
             switch ( random )
             {
                 case 0:
@@ -49,21 +47,22 @@ public class GroundEmitter : MonoBehaviour
                 case 5:
                 case 6:
                 case 7:
-                    Instantiate ( NoObstacleGroundPrefab, new Vector3 ( 3, -1.4f, 0 ), Quaternion.identity );
+                    obj = objectPool.AddGround ();
                     break;
 
                 case 2:
-                    Instantiate ( SmallObstacleGroundPrefab, new Vector3 ( 3, -1.4f, 0 ), Quaternion.identity );
+                    obj = objectPool.AddSmallObstacleGround ();
                     break;
 
                 case 4:
-                    Instantiate ( BigObstacleGroundPrefab, new Vector3 ( 3, -1.4f, 0 ), Quaternion.identity );
+                    obj = objectPool.AddBigObstacleGround ();
                     break;
 
                 case 8:
-                    Instantiate ( JumperGroundPrefab, new Vector3 ( 3, -1.4f, 0 ), Quaternion.identity );
+                    obj = objectPool.AddJumperGround ();
                     break;
             }
+            obj.transform.position = new Vector3 ( 3, -1.4f, 0 );
 
             lastEmit = random;
 
