@@ -70,4 +70,19 @@ public class GameButton : MonoBehaviour
             touchedColors.Remove ( color );
         }
     }
+
+    void Update ()
+    {
+        if ( Input.GetKeyDown ( KeyCode.Q ) ) CyanDown ();
+        else if ( Input.GetKeyUp ( KeyCode.Q ) ) CyanUp ();
+
+        if ( Input.GetKeyDown ( KeyCode.A ) ) YellowDown ();
+        else if ( Input.GetKeyUp ( KeyCode.A ) ) YellowUp ();
+
+        if ( Input.GetKeyDown ( KeyCode.P ) ) MagentaDown ();
+        else if ( Input.GetKeyUp ( KeyCode.P ) ) MagentaUp ();
+
+        if ( Input.GetKeyDown ( KeyCode.L ) ) BlackDown ();
+        else if ( Input.GetKeyUp ( KeyCode.L ) ) BlackUp ();
+    }
 }

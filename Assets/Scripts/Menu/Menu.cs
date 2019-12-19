@@ -24,6 +24,8 @@ public class Menu : MonoBehaviour
     {
         if ( Input.GetKeyUp ( KeyCode.Escape ) )
             Application.Quit ();
+        if ( Input.GetKeyUp ( KeyCode.Return ) || Input.GetKeyUp ( KeyCode.Space ) )
+            GameStart ();
     }
 
     public void GameStart ()

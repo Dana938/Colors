@@ -62,7 +62,11 @@ public class GameStates : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if ( IsGameOver )
+        {
+            if ( Input.anyKey )
+                ReturnToMenu ();
+        }
     }
 
     public void ReturnToMenu ()
