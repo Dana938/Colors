@@ -30,6 +30,14 @@ public class Menu : MonoBehaviour
 
     public void GameStart ()
     {
+        GameObject.Find ( "GameStartButton" ).GetComponent<AudioSource> ().Play ();
+        StartCoroutine ( WaitForAudioEnd () );
+    }
+
+    private IEnumerator WaitForAudioEnd ()
+    {
+        while ( GameObject.Find ( "GameStartButton" ).GetComponent<AudioSource> ().isPlaying )
+            yield return new WaitForSeconds ( 0 );
         SceneManager.LoadScene ( "GameScene" );
     }
 

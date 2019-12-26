@@ -30,6 +30,8 @@ public class JumperCollision : MonoBehaviour
             var jumperAnimator = gameObject.GetComponent<Animator> ();
             if ( jumperAnimator.runtimeAnimatorController != jumperAnimation )
                 jumperAnimator.runtimeAnimatorController = jumperAnimation;
+
+            GetComponent<AudioSource> ().Play ();
         }
     }
 }
