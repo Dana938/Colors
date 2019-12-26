@@ -30,7 +30,10 @@ public class Menu : MonoBehaviour
 
     public void GameStart ()
     {
-        GameObject.Find ( "GameStartButton" ).GetComponent<AudioSource> ().Play ();
+        var audioSource = GameObject.Find ( "GameStartButton" ).GetComponent<AudioSource> ();
+        if ( audioSource.isPlaying )
+            return;
+        audioSource.Play ();
         StartCoroutine ( WaitForAudioEnd () );
     }
 

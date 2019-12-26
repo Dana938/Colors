@@ -71,6 +71,18 @@ public class GameStates : MonoBehaviour
 
     public void ReturnToMenu ()
     {
+        var audioSource = GameObject.Find ( "GameOverBackground" ).GetComponent<AudioSource> ();
+        if ( audioSource.isPlaying )
+            return;
+        audioSource.Play ();
+        StartCoroutine ( WaitForAudioEnd () );
+    }
+
+    private IEnumerator WaitForAudioEnd ()
+    {
+        var audioSource = GameObject.Find ( "GameOverBackground" ).GetComponent<AudioSource> ();
+        while ( audioSource.isPlaying )
+            yield return new WaitForSeconds ( 0 );
         SceneManager.LoadScene ( "MenuScene" );
     }
 }
