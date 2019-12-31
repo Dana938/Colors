@@ -17,6 +17,9 @@ public class Menu : MonoBehaviour
         ranking1.GetComponent<Text> ().text = MakeTimeText ( Ranking.GetRanking ( 0 ).ElapsedTime );
         ranking2.GetComponent<Text> ().text = MakeTimeText ( Ranking.GetRanking ( 1 ).ElapsedTime );
         ranking3.GetComponent<Text> ().text = MakeTimeText ( Ranking.GetRanking ( 2 ).ElapsedTime );
+
+        if ( SocialServiceManager.SupportSocialService )
+            GameObject.Find ( "Leaderboard" ).SetActive ( true );
     }
 
     // Update is called once per frame
