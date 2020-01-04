@@ -41,7 +41,7 @@ public static class SocialServiceManager
 
 	static SocialServiceManager ()
 	{
-
+		Initialize ();
 	}
 
 	public static void Initialize ()

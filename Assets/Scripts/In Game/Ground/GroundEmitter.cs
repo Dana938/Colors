@@ -9,7 +9,7 @@ public class GroundEmitter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        for ( int i = 0; i < 8; ++i )
+        for ( int i = 0; i < 10; ++i )
         {
             var obj = GameObject.Find ( "Object Pool" ).GetComponent<ObjectPool> ().AddGround ();
             obj.transform.position = new Vector3 ( ( i * 0.75f ) - 3, -1.4f, 0 );
@@ -62,7 +62,7 @@ public class GroundEmitter : MonoBehaviour
                     obj = objectPool.AddJumperGround ();
                     break;
             }
-            obj.transform.position = new Vector3 ( 3, -1.4f, 0 );
+            obj.transform.position = new Vector3 ( 4, -1.4f, 0 );
 
             lastEmit = random;
 

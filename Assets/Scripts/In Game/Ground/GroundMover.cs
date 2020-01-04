@@ -14,7 +14,7 @@ public class GroundMover : MonoBehaviour
     void Update()
     {
         transform.position += new Vector3(-1.45f, 0, 0) * Time.deltaTime;
-        if ( transform.position.x <= -3 )
+        if ( transform.position.x <= -4 )
         {
             //Destroy ( gameObject );
             GameObject.Find ( "Object Pool" ).GetComponent<ObjectPool> ().ReturnObject ( gameObject );

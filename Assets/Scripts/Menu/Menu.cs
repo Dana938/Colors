@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class Menu : MonoBehaviour
 {
+    public GameObject Leaderboard;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,7 +21,7 @@ public class Menu : MonoBehaviour
         ranking3.GetComponent<Text> ().text = MakeTimeText ( Ranking.GetRanking ( 2 ).ElapsedTime );
 
         if ( SocialServiceManager.SupportSocialService )
-            GameObject.Find ( "Leaderboard" ).SetActive ( true );
+            Leaderboard.SetActive ( true );
     }
 
     // Update is called once per frame
