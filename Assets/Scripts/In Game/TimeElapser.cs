@@ -32,7 +32,7 @@ public class TimeElapser : MonoBehaviour
                 {
                     NewRecord.SetActive ( true );
 
-                    SocialServiceManager.IncrementAchievement ( ColorsAchievements.FirstStep );
+                    SocialServiceManager.UnlockAchievement ( ColorsAchievements.FirstStep );
                     SocialServiceManager.IncrementAchievement ( ColorsAchievements.ChallengerPractice );
                     SocialServiceManager.IncrementAchievement ( ColorsAchievements.HundredChallenge );
                     SocialServiceManager.IncrementAchievement ( ColorsAchievements.Pi );

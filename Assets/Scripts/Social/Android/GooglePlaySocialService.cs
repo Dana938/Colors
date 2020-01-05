@@ -9,27 +9,47 @@ using UnityEngine;
 
 class GooglePlaySocialService : ISocialService
 {
+	public bool? LoggedIn { get; private set; } = null;
+
 	public void Initialize ()
 	{
-		var config = new PlayGamesClientConfiguration.Builder ().RequestIdToken ().Build ();
+		var config = new PlayGamesClientConfiguration.Builder ().Build ();
 		PlayGamesPlatform.InitializeInstance ( config );
+		PlayGamesPlatform.DebugLogEnabled = true;
 		PlayGamesPlatform.Activate ();
 	}
 
 	public void Login ()
 	{
-		Social.localUser.Authenticate ( ( bool success ) =>
+		if ( !Social.localUser.authenticated )
 		{
-			if ( success )
+			Social.localUser.Authenticate ( ( bool success, string message ) =>
 			{
-				( Social.Active as GooglePlayGames.PlayGamesPlatform ).SetGravityForPopups ( Gravity.TOP );
-			}
-		} );
+				if ( success )
+				{
+					( Social.Active as GooglePlayGames.PlayGamesPlatform ).SetGravityForPopups ( Gravity.TOP );
+					LoggedIn = true;
+					Debug.Log ( "Google Play Service Signed in: " + Social.localUser.userName );
+				}
+				else
+				{
+					LoggedIn = false;
+					Debug.Log ( $"Google Play Service Signing failed: {message}" );
+				}
+			} );
+		}
+		else
+		{
+			LoggedIn = Social.localUser.authenticated;
+			Debug.Log ( "Google Play Service Signed in: " + Social.localUser.userName );
+		}
+
 	}
 
 	public void ShowLeaderboard ()
 	{
-		Social.ShowLeaderboardUI ();
+		//Social.ShowLeaderboardUI ();
+		PlayGamesPlatform.Instance.ShowLeaderboardUI ( GPGSIds.leaderboard_elapsed_time );
 	}
 
 	public void UnlockAchievement ( ColorsAchievements achv )
@@ -37,16 +57,19 @@ class GooglePlaySocialService : ISocialService
 		string id = null;
 		switch ( achv )
 		{
-			case ColorsAchievements.FirstStep: id = "CgkIh6KeoLQLEAIQAA"; break;
-			case ColorsAchievements.Mixer: id = "CgkIh6KeoLQLEAIQAQ"; break;
-			case ColorsAchievements.Shakoy: id = "CgkIh6KeoLQLEAIQAg"; break;
-			case ColorsAchievements.JustOne10Minutes: id = "CgkIh6KeoLQLEAIQAw"; break;
-			case ColorsAchievements.RushHour: id = "CgkIh6KeoLQLEAIQBA"; break;
+			case ColorsAchievements.FirstStep: id = GPGSIds.achievement_first_step; break;
+			case ColorsAchievements.Mixer: id = GPGSIds.achievement_mixer; break;
+			case ColorsAchievements.Shakoy: id = GPGSIds.achievement_shakoy; break;
+			case ColorsAchievements.JustOne10Minutes: id = GPGSIds.achievement_just_one_10_minutes; break;
+			case ColorsAchievements.RushHour: id = GPGSIds.achievement_rush_hour; break;
 			default:
 				throw new ArgumentOutOfRangeException ( "achv" );
 		}
 
-		Social.ReportProgress ( id, 100.0f, ( bool success ) => Debug.Log ( $"Did not unlock achievement: {achv}." ) );
+		PlayGamesPlatform.Instance.UnlockAchievement ( id, ( bool success ) =>
+		{
+			Debug.Log ( $"Did ${( ( success ) ? "" : "not " )}unlock achievement: {achv}." );
+		} );
 	}
 
 	public void IncrementAchievement ( ColorsAchievements achv, int step = 1 )
@@ -54,17 +77,25 @@ class GooglePlaySocialService : ISocialService
 		string id = null;
 		switch ( achv )
 		{
-			case ColorsAchievements.ChallengerPractice: id = "CgkIh6KeoLQLEAIQBQ"; break;
-			case ColorsAchievements.HundredChallenge: id = "CgkIh6KeoLQLEAIQBg"; break;
-			case ColorsAchievements.Pi: id = "CgkIh6KeoLQLEAIQBw"; break;
-			case ColorsAchievements.Argos: id = "CgkIh6KeoLQLEAIQCQ"; break;
+			case ColorsAchievements.ChallengerPractice: id = GPGSIds.achievement_challenger_practice; break;
+			case ColorsAchievements.HundredChallenge: id = GPGSIds.achievement_hundred_challenge; break;
+			case ColorsAchievements.Pi: id = GPGSIds.achievement_pi; break;
+			case ColorsAchievements.Argos: id = GPGSIds.achievement_argos; break;
 		}
 
-		PlayGamesPlatform.Instance.IncrementAchievement ( id, step, ( bool success ) => Debug.Log ( $"Did not increment achievement: {achv}." ) );
+		PlayGamesPlatform.Instance.IncrementAchievement ( id, step,
+			( bool success ) =>
+			{
+				Debug.Log ( $"Did {( ( success ) ? " " : "not " )}unlock achievement: {achv}." );
+			}
+		);
 	}
 
 	public void PostScore ( TimeSpan time )
 	{
-		Social.ReportScore ( ( long ) time.TotalMilliseconds, "CgkIh6KeoLQLEAIQCA", ( bool success ) => Debug.Log ( "Did not post score." ) );
+		Social.ReportScore ( ( long ) time.TotalMilliseconds, GPGSIds.leaderboard_elapsed_time,
+			( bool success ) =>
+				Debug.Log ( $"Did {( success ? "" : "not " )}post score: {time}" )
+		);
 	}
 }

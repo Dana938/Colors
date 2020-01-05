@@ -8,6 +8,8 @@ using UnityEngine;
 
 public interface ISocialService
 {
+	bool? LoggedIn { get; }
+
 	void Initialize ();
 	void Login ();
 
@@ -38,6 +40,7 @@ public static class SocialServiceManager
 	static ISocialService socialService;
 
 	public static bool SupportSocialService => socialService != null;
+	public static bool? LoggedIn => socialService?.LoggedIn;
 
 	static SocialServiceManager ()
 	{

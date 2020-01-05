@@ -21,7 +21,15 @@ public class Menu : MonoBehaviour
         ranking3.GetComponent<Text> ().text = MakeTimeText ( Ranking.GetRanking ( 2 ).ElapsedTime );
 
         if ( SocialServiceManager.SupportSocialService )
-            Leaderboard.SetActive ( true );
+            StartCoroutine ( CheckSocialServiceLoggedIn () );
+    }
+
+    IEnumerator CheckSocialServiceLoggedIn ()
+    {
+        while ( SocialServiceManager.LoggedIn == null )
+            yield return null;
+
+        Leaderboard.SetActive ( SocialServiceManager.LoggedIn.Value );
     }
 
     // Update is called once per frame
@@ -47,6 +55,11 @@ public class Menu : MonoBehaviour
         while ( GameObject.Find ( "GameStartButton" ).GetComponent<AudioSource> ().isPlaying )
             yield return new WaitForSeconds ( 0 );
         SceneManager.LoadScene ( "GameScene" );
+    }
+
+    public void ShowLeaderboard ()
+    {
+        SocialServiceManager.ShowLeaderboard ();
     }
 
     private string MakeTimeText(TimeSpan time)
