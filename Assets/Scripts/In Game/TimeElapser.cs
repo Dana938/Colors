@@ -29,10 +29,9 @@ public class TimeElapser : MonoBehaviour
             if ( GameObject.Find ( "Main Camera" ).GetComponent<GameStates> ().IsGameOver )
             {
                 if ( Ranking.Insert ( ElapsedTime ) )
-                {
                     NewRecord.SetActive ( true );
-                    SocialServiceManager.PostScore ( ElapsedTime );
-                }
+
+                SocialServiceManager.PostScore ( ElapsedTime );
 
                 SocialServiceManager.UnlockAchievement ( ColorsAchievements.FirstStep );
                 SocialServiceManager.IncrementAchievement ( ColorsAchievements.ChallengerPractice );

@@ -52,6 +52,11 @@ class GooglePlaySocialService : ISocialService
 		PlayGamesPlatform.Instance.ShowLeaderboardUI ( GPGSIds.leaderboard_elapsed_time );
 	}
 
+	public void ShowAchievement ()
+	{
+		PlayGamesPlatform.Instance.ShowAchievementsUI ();
+	}
+
 	public void UnlockAchievement ( ColorsAchievements achv )
 	{
 		string id = null;
@@ -93,9 +98,13 @@ class GooglePlaySocialService : ISocialService
 
 	public void PostScore ( TimeSpan time )
 	{
-		Social.ReportScore ( ( long ) time.TotalMilliseconds, GPGSIds.leaderboard_elapsed_time,
+		/*Social.ReportScore ( ( long ) time.TotalMilliseconds, GPGSIds.leaderboard_elapsed_time,
 			( bool success ) =>
 				Debug.Log ( $"Did {( success ? "" : "not " )}post score: {time}" )
-		);
+		);*/
+		PlayGamesPlatform.Instance.ReportScore ( ( long ) time.TotalMilliseconds, GPGSIds.leaderboard_elapsed_time, ( bool success ) =>
+		{
+			Debug.Log ( $"Did {( success ? "" : "not " )}post score: {time}" );
+		} );
 	}
 }

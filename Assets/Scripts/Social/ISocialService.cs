@@ -14,6 +14,7 @@ public interface ISocialService
 	void Login ();
 
 	void ShowLeaderboard ();
+	void ShowAchievement ();
 
 	void UnlockAchievement ( ColorsAchievements achv );
 	void IncrementAchievement ( ColorsAchievements achv, int step = 1 );
@@ -59,6 +60,11 @@ public static class SocialServiceManager
 	public static void ShowLeaderboard ()
 	{
 		socialService?.ShowLeaderboard ();
+	}
+
+	public static void ShowAchievement ()
+	{
+		socialService?.ShowAchievement ();
 	}
 
 	public static void UnlockAchievement ( ColorsAchievements achv )

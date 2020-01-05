@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class Menu : MonoBehaviour
 {
-    public GameObject Leaderboard;
+    public GameObject Leaderboard, Achievement;
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +30,7 @@ public class Menu : MonoBehaviour
             yield return null;
 
         Leaderboard.SetActive ( SocialServiceManager.LoggedIn.Value );
+        Achievement.SetActive ( SocialServiceManager.LoggedIn.Value );
     }
 
     // Update is called once per frame
@@ -60,6 +61,11 @@ public class Menu : MonoBehaviour
     public void ShowLeaderboard ()
     {
         SocialServiceManager.ShowLeaderboard ();
+    }
+
+    public void ShowAchievement ()
+    {
+        SocialServiceManager.ShowAchievement ();
     }
 
     private string MakeTimeText(TimeSpan time)
