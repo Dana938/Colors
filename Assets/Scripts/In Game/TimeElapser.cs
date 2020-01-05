@@ -31,13 +31,15 @@ public class TimeElapser : MonoBehaviour
                 if ( Ranking.Insert ( ElapsedTime ) )
                 {
                     NewRecord.SetActive ( true );
-
-                    SocialServiceManager.UnlockAchievement ( ColorsAchievements.FirstStep );
-                    SocialServiceManager.IncrementAchievement ( ColorsAchievements.ChallengerPractice );
-                    SocialServiceManager.IncrementAchievement ( ColorsAchievements.HundredChallenge );
-                    SocialServiceManager.IncrementAchievement ( ColorsAchievements.Pi );
-                    SocialServiceManager.IncrementAchievement ( ColorsAchievements.Argos );
+                    SocialServiceManager.PostScore ( ElapsedTime );
                 }
+
+                SocialServiceManager.UnlockAchievement ( ColorsAchievements.FirstStep );
+                SocialServiceManager.IncrementAchievement ( ColorsAchievements.ChallengerPractice );
+                SocialServiceManager.IncrementAchievement ( ColorsAchievements.HundredChallenge );
+                SocialServiceManager.IncrementAchievement ( ColorsAchievements.Pi );
+                SocialServiceManager.IncrementAchievement ( ColorsAchievements.Argos );
+
                 yield break;
             }
 

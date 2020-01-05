@@ -54,17 +54,15 @@ class GooglePlaySocialService : ISocialService
 
 	public void UnlockAchievement ( ColorsAchievements achv )
 	{
-		string id = null;
-		switch ( achv )
+		string id = achv switch
 		{
-			case ColorsAchievements.FirstStep: id = GPGSIds.achievement_first_step; break;
-			case ColorsAchievements.Mixer: id = GPGSIds.achievement_mixer; break;
-			case ColorsAchievements.Shakoy: id = GPGSIds.achievement_shakoy; break;
-			case ColorsAchievements.JustOne10Minutes: id = GPGSIds.achievement_just_one_10_minutes; break;
-			case ColorsAchievements.RushHour: id = GPGSIds.achievement_rush_hour; break;
-			default:
-				throw new ArgumentOutOfRangeException ( "achv" );
-		}
+			ColorsAchievements.FirstStep => GPGSIds.achievement_first_step,
+			ColorsAchievements.Mixer => GPGSIds.achievement_mixer,
+			ColorsAchievements.Shakoy => GPGSIds.achievement_shakoy,
+			ColorsAchievements.JustOne10Minutes => GPGSIds.achievement_just_one_10_minutes,
+			ColorsAchievements.RushHour => GPGSIds.achievement_rush_hour,
+			_ => throw new ArgumentOutOfRangeException ( "achv" ),
+		};
 
 		PlayGamesPlatform.Instance.UnlockAchievement ( id, ( bool success ) =>
 		{
