@@ -11,9 +11,9 @@ public class GroundMover : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void Update ()
     {
-        transform.position += new Vector3(-1.45f, 0, 0) * Time.deltaTime;
+        transform.position += new Vector3 ( -1.45f, 0, 0 ) * Time.deltaTime;
         if ( transform.position.x <= -4 )
         {
             GameObject.Find ( "Object Pool" ).GetComponent<ObjectPool> ().ReturnObject ( gameObject );

@@ -9,6 +9,8 @@ using UnityEngine;
 
 class GooglePlaySocialService : ISocialService
 {
+	List<string> alreadyOwned = new List<string> ();
+
 	public bool? LoggedIn { get; private set; } = null;
 
 	public void Initialize ()
@@ -71,9 +73,14 @@ class GooglePlaySocialService : ISocialService
 				throw new ArgumentOutOfRangeException ( "achv" );
 		}
 
+		if ( alreadyOwned.Contains ( id ) )
+			return;
+
 		PlayGamesPlatform.Instance.UnlockAchievement ( id, ( bool success ) =>
 		{
 			Debug.Log ( $"Did {( ( success ) ? "" : "not " )}unlock achievement: {achv}." );
+			if ( success )
+				alreadyOwned.Add ( id );
 		} );
 	}
 
