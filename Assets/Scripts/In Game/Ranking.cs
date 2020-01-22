@@ -20,6 +20,11 @@ public static class Ranking
 
 	static Ranking ()
 	{
+		Load ();
+	}
+
+	public static void Load ()
+	{
 		if ( File.Exists ( RankingPath ) )
 		{
 			int index = 0;

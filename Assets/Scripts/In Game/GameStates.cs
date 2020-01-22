@@ -26,9 +26,9 @@ public class GameStates : MonoBehaviour
     {
         switch (color)
         {
-            case 0: return new Color ( 0, 1, 1 );                   //< Cyan
-            case 1: return new Color ( 1, 0, 1 );                   //< Magenta
-            case 2: return new Color ( 1, 1, 0 );                   //< Yellow
+            case 0: return new Color ( 0.5f, 1, 1 );                   //< Cyan
+            case 1: return new Color ( 1, 0.5f, 1 );                   //< Magenta
+            case 2: return new Color ( 1, 1, 0.5f );                   //< Yellow
             case 3: return new Color ( 0.498f, 0.498f, 0.498f );    //< Gray(Black)
 
             case 4: return ( GetColor ( 0 ) + GetColor ( 1 ) ) / 2; //< Purple Blue

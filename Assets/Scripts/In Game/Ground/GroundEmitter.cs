@@ -1,72 +1,59 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GroundEmitter : MonoBehaviour
 {
-    static readonly System.Random StaticRandom = new System.Random ();
+	PercentageValue<ObjectType> [] percentages = new [] {
+		new PercentageValue<ObjectType> ( ObjectType.Ground, 70 ),
+		new PercentageValue<ObjectType> ( ObjectType.SmallObstacleGround, 10 ),
+		new PercentageValue<ObjectType> ( ObjectType.BigObstacleGround, 10 ),
+		new PercentageValue<ObjectType> ( ObjectType.JumperGround, 10 ),
+	};
+	ObjectType lastEmitted;
+	WaitTimer waitTimer;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        for ( int i = 0; i < 10; ++i )
-        {
-            var obj = GameObject.Find ( "Object Pool" ).GetComponent<ObjectPool> ().AddGround ();
-            obj.transform.position = new Vector3 ( ( i * 0.75f ) - 3, -1.4f, 0 );
-        }
+	// Start is called before the first frame update
+	void Start ()
+	{
+		ObjectPool objectPool = GameObject.Find ( "Object Pool" ).GetComponent<ObjectPool> ();
+		for ( int i = 0; i < 10; ++i )
+		{
+			var obj = objectPool.GetObject ( ObjectType.Ground );
+			obj.transform.position = new Vector3 ( ( i * 0.75f ) - 3, -1.4f, 0 );
+		}
 
-        StartCoroutine ( "EmitGround" );
-    }
+		lastEmitted = ObjectType.Ground;
+		waitTimer = new WaitTimer ( TimeSpan.FromSeconds ( 0.25 ) );
+	}
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	// Update is called once per frame
+	void Update ()
+	{
+		waitTimer.Update ( TimeSpan.FromSeconds ( Time.deltaTime ) );
 
-    IEnumerator EmitGround ()
-    {
-        ObjectPool objectPool = GameObject.Find ( "Object Pool" ).GetComponent<ObjectPool> ();
-        int lastEmit = 0;
+		ObjectPool objectPool = GameObject.Find ( "Object Pool" ).GetComponent<ObjectPool> ();
 
-        while ( true )
-        {
-            if (lastEmit == 8)
+		if ( waitTimer.Alarm )
+		{
+			if ( lastEmitted == ObjectType.JumperGround )
 			{
-                lastEmit = 0;
-                yield return new WaitForSeconds ( 1.0f );
-            }
+				lastEmitted = ObjectType.Ground;
+				waitTimer = new WaitTimer ( TimeSpan.FromSeconds ( 0.5 ) );
+				return;
+			}
+			else waitTimer = new WaitTimer ( TimeSpan.FromSeconds ( 0.25 ) );
 
-            int random = (lastEmit == 2 || lastEmit == 4 || lastEmit == 8) ? 0 : StaticRandom.Next ( 0, 9 );
-            GameObject obj = null;
-            switch ( random )
-            {
-                case 0:
-                case 1:
-                case 3:
-                case 5:
-                case 6:
-                case 7:
-                    obj = objectPool.AddGround ();
-                    break;
+			GameObject obj = objectPool.GetObject (
+				lastEmitted = ( lastEmitted != ObjectType.Ground )
+					? ObjectType.Ground
+					: Randomizer.GetRandomNumber ( percentages )
+			);
+			if ( obj == null ) throw new Exception ();
+			obj.transform.position = new Vector3 ( 4/* - (( waitTimer.Elapsed - waitTimer.Objective ).Seconds * -1.45f)*/, -1.4f, 0 );
 
-                case 2:
-                    obj = objectPool.AddSmallObstacleGround ();
-                    break;
-
-                case 4:
-                    obj = objectPool.AddBigObstacleGround ();
-                    break;
-
-                case 8:
-                    obj = objectPool.AddJumperGround ();
-                    break;
-            }
-            obj.transform.position = new Vector3 ( 4, -1.4f, 0 );
-
-            lastEmit = random;
-
-            yield return new WaitForSeconds ( 0.5f );
-        }
-    }
+			waitTimer.Clear ();
+		}
+	}
 }
