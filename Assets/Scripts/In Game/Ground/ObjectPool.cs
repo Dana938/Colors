@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum ObjectType
 {
-	JustGround,
+	Ground,
 	SmallObstacleGround,
 	BigObstacleGround,
 	JumperGround,
@@ -12,45 +12,52 @@ public enum ObjectType
 
 public class ObjectPool : MonoBehaviour
 {
-	List<GameObject> groundList = new List<GameObject> ();
-	List<GameObject> smallObstacleGroundList = new List<GameObject> ();
-	List<GameObject> bigObstacleGroundList = new List<GameObject> ();
-	List<GameObject> jumperGroundList = new List<GameObject> ();
-
-	GameObject groundPrefab, smallObstacleGroundPrefab, bigObstacleGroundPrefab, jumperGroundPrefab;
+	Queue<GameObject> poolQueue = new Queue<GameObject> ();
+	GameObject [] prefabs;
 
 	void Start ()
 	{
-		groundPrefab = Resources.Load ( "Prefabs/Ground_None", typeof ( GameObject ) ) as GameObject;
-		smallObstacleGroundPrefab = Resources.Load ( "Prefabs/Ground_SmallObstacle", typeof ( GameObject ) ) as GameObject;
-		bigObstacleGroundPrefab = Resources.Load ( "Prefabs/Ground_BigObstacle", typeof ( GameObject ) ) as GameObject;
-		jumperGroundPrefab = Resources.Load ( "Prefabs/Ground_Jumper", typeof ( GameObject ) ) as GameObject;
+		prefabs = new GameObject [ 4 ];
+		prefabs [ 0 ] = Resources.Load ( "Prefabs/Ground_None", typeof ( GameObject ) ) as GameObject;
+		prefabs [ 1 ] = Resources.Load ( "Prefabs/Ground_SmallObstacle", typeof ( GameObject ) ) as GameObject;
+		prefabs [ 2 ] = Resources.Load ( "Prefabs/Ground_BigObstacle", typeof ( GameObject ) ) as GameObject;
+		prefabs [ 3 ] = Resources.Load ( "Prefabs/Ground_Jumper", typeof ( GameObject ) ) as GameObject;
 	}
 
-	public GameObject AddGround () { return AddObject ( groundList, groundPrefab ); }
-	public GameObject AddSmallObstacleGround () { return AddObject ( smallObstacleGroundList, smallObstacleGroundPrefab ); }
-	public GameObject AddBigObstacleGround () { return AddObject ( bigObstacleGroundList, bigObstacleGroundPrefab ); }
-	public GameObject AddJumperGround () { return AddObject ( jumperGroundList, jumperGroundPrefab ); }
-
-	private GameObject AddObject ( List<GameObject> list, GameObject prefab )
+	public GameObject GetObject ( ObjectType type )
 	{
 		GameObject ret = null;
 
-		foreach ( GameObject obj in list )
+		if ( poolQueue.Count > 0 )
 		{
-			if ( !obj.activeInHierarchy )
+			GameObject poolFirst = poolQueue.Dequeue ();
+			if ( poolFirst.tag == prefabs [ ( int ) type ].tag )
 			{
-				ret = obj;
+				ret = poolFirst;
 				ret.SetActive ( true );
 				ret.GetComponentInChildren<RandomColor> ()?.GenerateRandomColor ();
-				break;
+			}
+			else
+			{
+				poolQueue.Enqueue ( poolFirst );
+				while ( poolQueue.Peek () != poolFirst )
+				{
+					GameObject obj = poolQueue.Dequeue ();
+					if ( obj.tag == prefabs [ ( int ) type ].tag )
+					{
+						ret = obj;
+						ret.SetActive ( true );
+						ret.GetComponentInChildren<RandomColor> ()?.GenerateRandomColor ();
+						break;
+					}
+					else poolQueue.Enqueue ( obj );
+				}
 			}
 		}
 
 		if ( ret == null )
 		{
-			ret = Instantiate ( prefab );
-			list.Add ( ret );
+			ret = Instantiate ( prefabs [ ( int ) type ] );
 			ret.transform.parent = gameObject.transform;
 		}
 
@@ -60,5 +67,6 @@ public class ObjectPool : MonoBehaviour
 	public void ReturnObject ( GameObject obj )
 	{
 		obj.SetActive ( false );
+		poolQueue.Enqueue ( obj );
 	}
 }

@@ -12,13 +12,7 @@ public class Menu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameObject ranking1 = GameObject.Find ( "Ranking1" );
-        GameObject ranking2 = GameObject.Find ( "Ranking2" );
-        GameObject ranking3 = GameObject.Find ( "Ranking3" );
-
-        ranking1.GetComponent<Text> ().text = MakeTimeText ( Ranking.GetRanking ( 0 ).ElapsedTime );
-        ranking2.GetComponent<Text> ().text = MakeTimeText ( Ranking.GetRanking ( 1 ).ElapsedTime );
-        ranking3.GetComponent<Text> ().text = MakeTimeText ( Ranking.GetRanking ( 2 ).ElapsedTime );
+        RefreshRanking ();
 
         if ( SocialServiceManager.SupportSocialService )
             StartCoroutine ( CheckSocialServiceLoggedIn () );
@@ -40,6 +34,30 @@ public class Menu : MonoBehaviour
             Application.Quit ();
         if ( Input.GetKeyUp ( KeyCode.Return ) || Input.GetKeyUp ( KeyCode.Space ) )
             GameStart ();
+    }
+
+    void OnApplicationPause ( bool pauseStatus )
+    {
+        if ( pauseStatus )
+        {
+            Ranking.Save ();
+        }
+        else
+        {
+            Ranking.Load ();
+            RefreshRanking ();
+        }
+    }
+
+    private void RefreshRanking ()
+    {
+        GameObject ranking1 = GameObject.Find ( "Ranking1" );
+        GameObject ranking2 = GameObject.Find ( "Ranking2" );
+        GameObject ranking3 = GameObject.Find ( "Ranking3" );
+
+        ranking1.GetComponent<Text> ().text = MakeTimeText ( Ranking.GetRanking ( 0 ).ElapsedTime );
+        ranking2.GetComponent<Text> ().text = MakeTimeText ( Ranking.GetRanking ( 1 ).ElapsedTime );
+        ranking3.GetComponent<Text> ().text = MakeTimeText ( Ranking.GetRanking ( 2 ).ElapsedTime );
     }
 
     public void GameStart ()

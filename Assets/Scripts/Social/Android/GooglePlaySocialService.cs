@@ -73,7 +73,7 @@ class GooglePlaySocialService : ISocialService
 
 		PlayGamesPlatform.Instance.UnlockAchievement ( id, ( bool success ) =>
 		{
-			Debug.Log ( $"Did ${( ( success ) ? "" : "not " )}unlock achievement: {achv}." );
+			Debug.Log ( $"Did {( ( success ) ? "" : "not " )}unlock achievement: {achv}." );
 		} );
 	}
 
