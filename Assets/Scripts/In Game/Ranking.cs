@@ -45,6 +45,7 @@ public static class Ranking
 					}
 				}
 			}
+			Debug.Log ( "Ranking file loaded from " + RankingPath );
 		}
 	}
 
@@ -62,7 +63,9 @@ public static class Ranking
 					writer.WriteLine ( elapsed );
 					writer.WriteLine ( recorded );
 				}
+				writer.Flush ();
 			}
+			Debug.Log ( "Ranking file saved to " + RankingPath );
 		}
 	}
 

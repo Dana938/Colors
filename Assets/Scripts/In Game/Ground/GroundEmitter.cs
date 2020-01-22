@@ -40,7 +40,7 @@ public class GroundEmitter : MonoBehaviour
 			if ( lastEmitted == ObjectType.JumperGround )
 			{
 				lastEmitted = ObjectType.Ground;
-				waitTimer = new WaitTimer ( TimeSpan.FromSeconds ( 0.5 ) );
+				waitTimer = new WaitTimer ( TimeSpan.FromSeconds ( 1.00 ) );
 				return;
 			}
 			else waitTimer = new WaitTimer ( TimeSpan.FromSeconds ( 0.25 ) );
