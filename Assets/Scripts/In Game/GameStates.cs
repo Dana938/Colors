@@ -42,7 +42,7 @@ public class GameStates : MonoBehaviour
         }
     }
 
-    public GameObject GameOverBackground;
+    public GameObject GameOverBackground, GamePauseBackground;
 
     public int Color { get; private set; }
     public bool IsGameOver => GameOverBackground.activeSelf;
@@ -84,5 +84,26 @@ public class GameStates : MonoBehaviour
         while ( audioSource.isPlaying )
             yield return new WaitForSeconds ( 0 );
         SceneManager.LoadScene ( "MenuScene" );
+    }
+
+    public void PauseGame ()
+    {
+        if ( GameObject.Find ( "GameOverBackground" ) != null )
+            return;
+
+        GamePauseBackground.SetActive ( true );
+        Time.timeScale = 0;
+    }
+
+    public void ResumeGame ()
+    {
+        Time.timeScale = 1;
+        GamePauseBackground.SetActive ( false );
+    }
+
+    private void OnApplicationPause ( bool pause )
+    {
+        if ( pause )
+            PauseGame ();
     }
 }
