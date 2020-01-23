@@ -51,7 +51,7 @@ public class GroundEmitter : MonoBehaviour
 					: Randomizer.GetRandomNumber ( percentages )
 			);
 			if ( obj == null ) throw new Exception ();
-			obj.transform.position = new Vector3 ( 4/* - (( waitTimer.Elapsed - waitTimer.Objective ).Seconds * -1.45f)*/, -1.4f, 0 );
+			obj.transform.position = new Vector3 ( 4 - (( waitTimer.Elapsed - waitTimer.Objective ).Seconds * -1.45f), -1.4f, 0 );
 
 			waitTimer.Clear ();
 		}

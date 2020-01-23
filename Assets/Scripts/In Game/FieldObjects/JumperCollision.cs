@@ -18,13 +18,19 @@ public class JumperCollision : MonoBehaviour
         
     }
 
+    void OnEnable ()
+    {
+        var jumperAnimator = gameObject.GetComponent<Animator> ();
+        jumperAnimator.runtimeAnimatorController = null;
+    }
+
     private void OnCollisionEnter2D ( Collision2D collision )
     {
         GameObject actor = GameObject.Find ( "Actor" );
 
         if ( collision.gameObject == actor )
         {
-            actor.GetComponent<Rigidbody2D> ().AddForce ( Vector2.up * 4.45f, ForceMode2D.Impulse );
+            actor.GetComponent<Rigidbody2D> ().AddForce ( Vector2.up * /*4.45f*/4.44f, ForceMode2D.Impulse );
             actor.GetComponent<Animator> ().runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ( "Actor/Jump" );
 
             var jumperAnimator = gameObject.GetComponent<Animator> ();

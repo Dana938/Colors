@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ActorController : MonoBehaviour
 {
+    public GameObject GameOverBackground;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,5 +21,10 @@ public class ActorController : MonoBehaviour
             GetComponent<Animator> ().runtimeAnimatorController = null;
             GetComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite> ( "Actor/fall1" );
         }
+    }
+
+    void OnBecameInvisible ()
+    {
+        GameOverBackground.SetActive ( true );
     }
 }
