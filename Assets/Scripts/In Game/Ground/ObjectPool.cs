@@ -10,6 +10,12 @@ public enum ObjectType
 	JumperGround,
 }
 
+public interface IObjectPoolJob
+{
+	void OutFromObjectPool ();
+	void InToObjectPool ();
+}
+
 public class ObjectPool : MonoBehaviour
 {
 	Queue<GameObject> poolQueue = new Queue<GameObject> ();
