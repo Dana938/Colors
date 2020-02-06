@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
+#if UNITY_ANDROID
 class GooglePlaySocialService : ISocialService
 {
 	List<string> alreadyOwned = new List<string> ();
@@ -115,3 +116,4 @@ class GooglePlaySocialService : ISocialService
 		} );
 	}
 }
+#endif

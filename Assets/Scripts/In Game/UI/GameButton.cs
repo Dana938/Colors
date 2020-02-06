@@ -71,6 +71,15 @@ public class GameButton : MonoBehaviour
         }
     }
 
+    public void PauseGame ()
+    {
+        GetGameStates ().PauseGame ();
+        var audioSource = GameObject.Find ( "Button_Pause" ).GetComponent<AudioSource> ();
+        if ( audioSource.isPlaying )
+            return;
+        audioSource.Play ();
+    }
+
     void Update ()
     {
         if ( Input.GetKeyDown ( KeyCode.Q ) ) CyanDown ();
