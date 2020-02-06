@@ -5,6 +5,7 @@ using UnityEngine;
 public class ObstacleCollision : MonoBehaviour
 {
     RuntimeAnimatorController walkAnimation, collidedAnimation;
+    bool collided = false;
 
     // Start is called before the first frame update
     void Start()
@@ -25,15 +26,7 @@ public class ObstacleCollision : MonoBehaviour
 
         if ( collision.gameObject == actor )
         {
-            Debug.Log ( $"Relative Velocity: {collision.relativeVelocity.x}, {collision.relativeVelocity.y}" );
-            if ( Mathf.Abs ( collision.relativeVelocity.x ) > float.Epsilon )
-            {
-                Debug.Log ( "Collided Animation" );
-                var actorAnimator = actor.GetComponent<Animator> ();
-                if ( actorAnimator.runtimeAnimatorController != collidedAnimation )
-                    actorAnimator.runtimeAnimatorController = collidedAnimation;
-            }
-            else if ( collision.relativeVelocity.y < 0 )
+            if ( collision.relativeVelocity.y < 0 )
             {
                 var actorAnimator = actor.GetComponent<Animator> ();
                 if ( actorAnimator.runtimeAnimatorController != walkAnimation )
@@ -41,11 +34,33 @@ public class ObstacleCollision : MonoBehaviour
             }
             else if (collision.relativeVelocity.y == 0)
             {
-                Debug.Log ( "Collided Animation" );
                 var actorAnimator = actor.GetComponent<Animator> ();
                 if ( actorAnimator.runtimeAnimatorController != collidedAnimation )
+                {
                     actorAnimator.runtimeAnimatorController = collidedAnimation;
+                    collided = true;
+                    StartCoroutine ( ChangeAnimationToWalk () );
+                }
             }
         }
+    }
+
+    private void OnCollisionExit2D ( Collision2D collision )
+    {
+        collided = false;
+    }
+
+    IEnumerator ChangeAnimationToWalk ()
+    {
+        yield return new WaitForSeconds ( 0.3f );
+        GameObject actor = GameObject.Find ( "Actor" );
+        var actorAnimator = actor.GetComponent<Animator> ();
+        while ( collided )
+        {
+            yield return null;
+        }
+
+        if ( actorAnimator.runtimeAnimatorController == collidedAnimation )
+            actorAnimator.runtimeAnimatorController = walkAnimation;
     }
 }

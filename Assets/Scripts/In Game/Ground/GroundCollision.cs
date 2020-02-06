@@ -28,15 +28,7 @@ public class GroundCollision : MonoBehaviour
             {
                 var actorAnimator = actor.GetComponent<Animator> ();
                 if ( actorAnimator.runtimeAnimatorController != walkAnimation )
-                {
-                    if ( actorAnimator.runtimeAnimatorController == null || actorAnimator.runtimeAnimatorController.animationClips [ 0 ].isLooping )
-                        actorAnimator.runtimeAnimatorController = walkAnimation;
-                    else
-                    {
-                        if ( ( actorAnimator.playbackTime - actorAnimator.runtimeAnimatorController.animationClips [ 0 ].length ) < float.Epsilon )
-                            actorAnimator.runtimeAnimatorController = walkAnimation;
-                    }
-                }
+                    actorAnimator.runtimeAnimatorController = walkAnimation;
             }
         }
     }
