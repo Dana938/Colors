@@ -18,8 +18,16 @@ public class TimeElapser : MonoBehaviour
         GameObject.Find ( "Time Text" ).GetComponent<Text> ().font.material.mainTexture.filterMode = FilterMode.Point;
 
         startTime = DateTime.Now.TimeOfDay;
+        ElapsedTime = new TimeSpan ();
 
         StartCoroutine ( UpdateCoroutine () );
+    }
+
+    void Update ()
+    {
+        //var diff = DateTime.Now.TimeOfDay - startTime;
+        //ElapsedTime = diff;
+        ElapsedTime += TimeSpan.FromSeconds ( Time.deltaTime );
     }
 
     IEnumerator UpdateCoroutine ()
@@ -42,10 +50,7 @@ public class TimeElapser : MonoBehaviour
                 yield break;
             }
 
-            var diff = DateTime.Now.TimeOfDay - startTime;
-            ElapsedTime = diff;
-
-            GameObject.Find ( "Time Text" ).GetComponent<Text> ().text = $"{diff.ToString ( "hh\\:mm\\:ss" )}.{diff.Milliseconds.ToString ().PadRight ( 3, '0' )}";
+            GameObject.Find ( "Time Text" ).GetComponent<Text> ().text = $"{ElapsedTime.ToString ( "hh\\:mm\\:ss" )}.{ElapsedTime.Milliseconds.ToString ().PadRight ( 3, '0' )}";
 
             if ( ElapsedTime >= TimeSpan.FromSeconds ( 15 ) )
                 SocialServiceManager.UnlockAchievement ( ColorsAchievements.Mixer );
