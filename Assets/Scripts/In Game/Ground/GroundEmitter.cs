@@ -18,7 +18,7 @@ public class GroundEmitter : MonoBehaviour
 	void Start ()
 	{
 		ObjectPool objectPool = GameObject.Find ( "Object Pool" ).GetComponent<ObjectPool> ();
-		for ( int i = 0; i < 10; ++i )
+		for ( int i = 0; i < 12; ++i )
 		{
 			var obj = objectPool.GetObject ( ObjectType.Ground );
 			obj.transform.position = new Vector3 ( ( i * 0.75f ) - 3, -1.4f, 0 );
@@ -51,7 +51,7 @@ public class GroundEmitter : MonoBehaviour
 					: Randomizer.GetRandomNumber ( percentages )
 			);
 			if ( obj == null ) throw new Exception ();
-			obj.transform.position = new Vector3 ( 4 - (( waitTimer.Elapsed - waitTimer.Objective ).Seconds * -1.45f), -1.4f, 0 );
+			obj.transform.position = new Vector3 ( 5.25f - (( waitTimer.Elapsed - waitTimer.Objective ).Seconds * -1.45f), -1.4f, 0 );
 
 			waitTimer.Clear ();
 		}
