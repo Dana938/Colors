@@ -85,11 +85,11 @@ public class GameButton : MonoBehaviour
         if ( Input.GetKeyDown ( KeyCode.D ) ) CyanDown ();
         else if ( Input.GetKeyUp ( KeyCode.D ) ) CyanUp ();
 
-        if ( Input.GetKeyDown ( KeyCode.F ) ) YellowDown ();
-        else if ( Input.GetKeyUp ( KeyCode.F ) ) YellowUp ();
+        if ( Input.GetKeyDown ( KeyCode.F ) ) MagentaDown ();
+        else if ( Input.GetKeyUp ( KeyCode.F ) ) MagentaUp ();
 
-        if ( Input.GetKeyDown ( KeyCode.J ) ) MagentaDown ();
-        else if ( Input.GetKeyUp ( KeyCode.J ) ) MagentaUp ();
+        if ( Input.GetKeyDown ( KeyCode.J ) ) YellowDown ();
+        else if ( Input.GetKeyUp ( KeyCode.J ) ) YellowUp ();
 
         if ( Input.GetKeyDown ( KeyCode.K ) ) BlackDown ();
         else if ( Input.GetKeyUp ( KeyCode.K ) ) BlackUp ();
