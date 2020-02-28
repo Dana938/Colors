@@ -22,13 +22,20 @@ public enum GameColor
 
 public class GameStates : MonoBehaviour
 {
+    static Color HexToFloat ( int rgb ) => new Color ( ( ( rgb >> 16 ) & 0xff ) / 255.0f, ( ( rgb >> 8 ) & 0xff ) / 255.0f, ( rgb & 0xff ) / 255.0f );
+
     public static Color GetColor ( int color )
     {
         switch (color)
         {
-            case 0: return new Color ( 0.5f, 1, 1 );                   //< Cyan
-            case 1: return new Color ( 1, 0.5f, 1 );                   //< Magenta
-            case 2: return new Color ( 1, 1, 0.5f );                   //< Yellow
+            //case 0: return new Color ( 0.5f, 1, 1 );                //< Cyan
+            //case 1: return new Color ( 1, 0.5f, 1 );                //< Magenta
+            //case 2: return new Color ( 1, 1, 0.5f );                //< Yellow
+            //case 3: return new Color ( 0.498f, 0.498f, 0.498f );    //< Gray(Black)
+
+            case 0: return new Color ( 1f, 0.25f, 0.25f );            //< Red
+            case 1: return new Color ( 0.25f, 1f, 0.25f );            //< Green
+            case 2: return new Color ( 0.25f, 0.25f, 1f );            //< Blue
             case 3: return new Color ( 0.498f, 0.498f, 0.498f );    //< Gray(Black)
 
             case 4: return ( GetColor ( 0 ) + GetColor ( 1 ) ) / 2; //< Purple Blue
